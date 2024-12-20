@@ -18,6 +18,7 @@ namespace Todo.Api.Endpoints
                 .WithTags("tarefas")
                 .MapEndpoint<CriarTarefaEndpoint>()
                 .MapEndpoint<EditarTarefaEndpoint>()
+                .MapEndpoint<ObterPorIdEndpoint>()
                 ;
         }
 

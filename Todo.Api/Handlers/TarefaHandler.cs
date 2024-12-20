@@ -66,9 +66,22 @@ namespace Todo.Api.Handlers
             throw new NotImplementedException();
         }
 
-        public Task<Response<Tarefa?>> ObterPorIdAsync(ObterPorIdTarefaRequest request)
+        public async Task<Response<Tarefa?>> ObterPorIdAsync(ObterPorIdTarefaRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tarefa = await context.Tarefas
+                                    .AsNoTracking()
+                                    .FirstOrDefaultAsync(x => x.Id == request.Id && x.IdUsuario == request.IdUsuario);
+
+                return tarefa is null
+                        ? new Response<Tarefa?>(null, 404, "Não foi encontrada")
+                        : new Response<Tarefa?>(tarefa);
+            }
+            catch
+            {
+                return new Response<Tarefa?>(null, 500, "Não foi possível recuperar a tarefa");
+            }
         }
 
         public Task<PagedResponse<List<Tarefa>>> ObterTodasAsync(ObterTodasTarefasRequest request)
