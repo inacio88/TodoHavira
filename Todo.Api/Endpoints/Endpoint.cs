@@ -16,7 +16,9 @@ namespace Todo.Api.Endpoints
 
             endpoints.MapGroup("v1/tarefas")
                 .WithTags("tarefas")
-                .MapEndpoint<CriarTarefaEndpoint>();
+                .MapEndpoint<CriarTarefaEndpoint>()
+                .MapEndpoint<EditarTarefaEndpoint>()
+                ;
         }
 
 

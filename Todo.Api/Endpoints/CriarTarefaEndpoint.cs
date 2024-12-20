@@ -11,9 +11,9 @@ namespace Todo.Api.Endpoints
     {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/", HandleAsync)
-                .WithName("Categories: Create")
-                .WithSummary("Cria uma nova categoria")
-                .WithDescription("Cria uma nova categoria")
+                .WithName("Tarefas: criar")
+                .WithSummary("Cria uma nova tarega")
+                .WithDescription("Cria uma nova tarefa")
                 .WithOrder(1)
                 .Produces<Response<Tarefa?>>()
                 ;

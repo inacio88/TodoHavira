@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Todo.Api.Data;
 using Todo.Core.Handlers;
 using Todo.Core.Models;
@@ -34,12 +35,33 @@ namespace Todo.Api.Handlers
             }
         }
 
-        public Task<Response<Tarefa?>> DeletarAsync(DeletarTarefaRequest request)
+        public async Task<Response<Tarefa?>> EditarAsync(EditarTarefaRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tarefa = await context.Tarefas.FirstOrDefaultAsync(x => x.Id == request.Id && x.IdUsuario == request.IdUsuario);
+
+                if (tarefa is null)
+                    return new Response<Tarefa?>(null, 404, "Tarefa não encontrada");
+
+                tarefa.Titulo = request.Titulo;
+                tarefa.Descricao = request.Descricao;
+                tarefa.DataConclusao = request.DataConclusao;
+
+
+                context.Tarefas.Update(tarefa);
+                await context.SaveChangesAsync();
+
+                return new Response<Tarefa?>(tarefa, message: "Tarefa atualizada com sucesso");
+            }
+            catch
+            {
+
+                return new Response<Tarefa?>(null, 500, "Não foi possível alterar a tarefa");
+            }
         }
 
-        public Task<Response<Tarefa?>> EditarAsync(EditarTarefaRequest request)
+        public Task<Response<Tarefa?>> DeletarAsync(DeletarTarefaRequest request)
         {
             throw new NotImplementedException();
         }
