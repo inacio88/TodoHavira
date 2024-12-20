@@ -84,9 +84,28 @@ namespace Todo.Api.Handlers
             }
         }
 
-        public Task<PagedResponse<List<Tarefa>>> ObterTodasAsync(ObterTodasTarefasRequest request)
+        public async Task<PagedResponse<List<Tarefa>>> ObterTodasAsync(ObterTodasTarefasRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = context.Tarefas
+                             .AsNoTracking()
+                             .Where(x => x.IdUsuario == request.IdUsuario)
+                             .OrderBy(x => x.Titulo);
+
+                var tarefas = await query
+                                .Skip(request.PageSize * (request.PageNumber - 1))
+                                .Take(request.PageSize) 
+                                .ToListAsync();
+
+                var count = await query.CountAsync();
+
+                return new PagedResponse<List<Tarefa>>(tarefas, count, request.PageNumber, request.PageSize);
+            }
+            catch
+            {
+                return new PagedResponse<List<Tarefa>>(null, 500, "Não foi possível consultar as tarefas");
+            }
         }
     }
 }

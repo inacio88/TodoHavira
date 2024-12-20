@@ -12,7 +12,7 @@ namespace Todo.Api.Endpoints
                     .WithName("Tarefa: obter")
                     .WithSummary("Obtém uma tarefa")
                     .WithDescription("Obtém uma tarefa")
-                    .WithOrder(1)
+                    .WithOrder(3)
                     .Produces<Response<Tarefa?>>()
                     ;
 

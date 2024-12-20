@@ -14,7 +14,7 @@ namespace Todo.Api.Endpoints
                     .WithName("Tarefa: editar")
                     .WithSummary("Edita uma tarefa")
                     .WithDescription("Edita uma tarefa")
-                    .WithOrder(1)
+                    .WithOrder(2)
                     .Produces<Response<Tarefa?>>()
                     ;
 
