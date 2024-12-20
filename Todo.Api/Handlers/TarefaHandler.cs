@@ -61,9 +61,25 @@ namespace Todo.Api.Handlers
             }
         }
 
-        public Task<Response<Tarefa?>> DeletarAsync(DeletarTarefaRequest request)
+        public async Task<Response<Tarefa?>> DeletarAsync(DeletarTarefaRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tarefa = await context.Tarefas.FirstOrDefaultAsync(x => x.Id == request.Id && x.IdUsuario == request.IdUsuario);
+
+                if (tarefa is null)
+                    return new Response<Tarefa?>(null, 404, "Tarefa não encontrada");
+
+                context.Tarefas.Remove(tarefa);
+
+                await context.SaveChangesAsync();
+
+                return new Response<Tarefa?>(tarefa, message: "Tarefa excluída com sucesso!");
+            }
+            catch (Exception)
+            {
+                return new Response<Tarefa?>(null, 500, " Não foi possível remover a tarefa");
+            }
         }
 
         public async Task<Response<Tarefa?>> ObterPorIdAsync(ObterPorIdTarefaRequest request)

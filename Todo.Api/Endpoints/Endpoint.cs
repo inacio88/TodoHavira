@@ -20,6 +20,7 @@ namespace Todo.Api.Endpoints
                 .MapEndpoint<EditarTarefaEndpoint>()
                 .MapEndpoint<ObterPorIdEndpoint>()
                 .MapEndpoint<ObterTodasTarefasEndpoint>()
+                .MapEndpoint<DeletarTarefaEndpoint>()
                 ;
         }
 
