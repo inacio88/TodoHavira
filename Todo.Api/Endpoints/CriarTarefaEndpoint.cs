@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Todo.Api.Common;
 using Todo.Core.Handlers;
 using Todo.Core.Models;
@@ -19,6 +20,12 @@ namespace Todo.Api.Endpoints
 
         private static async Task<IResult> HandleAsync(ITarefaHandler handler, CriarTarefaRequest request)
         {
+            var validationContext = new ValidationContext(request);
+            var validationResults = new List<ValidationResult>();
+            var  isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
+            if(!isValid)
+                return Results.BadRequest(validationResults);
+
             request.IdUsuario = 1;
             var result = await handler.CriarAsync(request);
             
