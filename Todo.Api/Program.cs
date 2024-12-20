@@ -1,4 +1,5 @@
 using Todo.Api.Common.Api;
+using Todo.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // });
 builder.AddConfiguration();
 builder.AddDataContexts();
-
+builder.AddDocumentation();
+builder.AddServices();
 var app = builder.Build();
 
 
@@ -21,7 +23,8 @@ var app = builder.Build();
 //     app.UseSwagger();
 //     app.UseSwaggerUI();
 // }
-
+app.ConfigureDevEnviroment();
 app.UseHttpsRedirection();
+app.MapEndpoints();
 
 app.Run();

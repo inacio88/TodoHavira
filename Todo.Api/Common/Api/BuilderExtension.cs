@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Todo.Api.Data;
+using Todo.Api.Handlers;
+using Todo.Core.Handlers;
 
 namespace Todo.Api.Common.Api
 {
@@ -7,7 +9,7 @@ namespace Todo.Api.Common.Api
     {
         public static void AddConfiguration(this WebApplicationBuilder builder)
         {
-            Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+            ConfigurationApi.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                                             ?? string.Empty;
         }
 
@@ -26,14 +28,14 @@ namespace Todo.Api.Common.Api
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.ConnectionString);
+                options.UseSqlServer(ConfigurationApi.ConnectionString);
             });
 
         }
 
         public static void AddServices(this WebApplicationBuilder builder)
         {
-            
+            builder.Services.AddTransient<ITarefaHandler, TarefaHandler>();
         }
     }
 }
