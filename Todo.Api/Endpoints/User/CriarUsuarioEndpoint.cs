@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Todo.Api.Common;
 using Todo.Api.Services;
+using Todo.Core.Entities;
 using Todo.Core.Handlers;
 using Todo.Core.Requests;
 using Todo.Core.Responses;
@@ -15,33 +16,27 @@ namespace Todo.Api.Endpoints.User
                     .WithSummary("Usuario")
                     .WithDescription("usuário")
                     .WithOrder(1)
-                    .Produces<Response<ResponseAuthenticatedUser?>>()
+                    .Produces<Response<UserAuthenticated?>>()
                     ;
 
-        private static async Task<IResult> HandleAsync(ITarefaHandler handler, CriarUsuarioRequest request)
+        private static async Task<IResult> HandleAsync(IUsuarioHandler handler, CriarUsuarioRequest request)
         {
             System.Console.WriteLine(request.Email);
             System.Console.WriteLine(request.Password);
+            System.Console.WriteLine(request.Name);
             var validationContext = new ValidationContext(request);
             var validationResults = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
             if (!isValid)
                 return Results.BadRequest(validationResults);
 
-            // request.IdUsuario = 1;
-            // var result = await handler.CriarAsync(request);
 
-            // if (result.IsSuccess)
-            //     return TypedResults.Created($"/{result.Data?.Id}", result);
+            var result = await handler.CriarAsync(request, new CancellationToken());
 
+            if (result.IsSuccess)
+                return TypedResults.Created($"/{result.Data?.Id}", result);
 
-            // return TypedResults.BadRequest(result);
-            var authenticatedUser = new ResponseAuthenticatedUser();
-            authenticatedUser.Email = request.Email;
-            authenticatedUser.Password = request.Password;
-            authenticatedUser.Token = TokenService.Generate(authenticatedUser);
-
-            return Results.Ok(authenticatedUser);
+            return Results.BadRequest();
         }
     }
 }

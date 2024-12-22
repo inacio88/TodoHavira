@@ -8,5 +8,7 @@ namespace Todo.Core.Requests
         public string Email { get; set; } = string.Empty;
         [Required(ErrorMessage ="Password é obrigatório")]
         public string Password { get; set; } = string.Empty;
+        [Required(ErrorMessage ="Name é obrigatório")]
+        public string Name { get; set; } = string.Empty;
     }
 }

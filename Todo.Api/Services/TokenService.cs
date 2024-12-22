@@ -3,14 +3,13 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Todo.Api.Common;
-using Todo.Core.Responses;
-using Todo.Core.Services;
+using Todo.Core.Models;
 
 namespace Todo.Api.Services
 {
     public static class TokenService// : ITokenService
     {
-        public static string Generate(ResponseAuthenticatedUser data)
+        public static string Generate(User data)
         {
             var key = Encoding.ASCII.GetBytes(ConfigurationApi.JwtPrivateKey);
             var handler = new JwtSecurityTokenHandler();
@@ -34,18 +33,12 @@ namespace Todo.Api.Services
             return handler.WriteToken(token);
         }
 
-        private static ClaimsIdentity GenerateClaims(ResponseAuthenticatedUser user)
+        private static ClaimsIdentity GenerateClaims(User user)
         {
             var ci = new ClaimsIdentity();
             ci.AddClaim(new Claim("id", user.Id.ToString()));
             ci.AddClaim(new Claim(ClaimTypes.Name, user.Email));
             ci.AddClaim(new Claim(ClaimTypes.GivenName, user.Name));
-
-
-            foreach (var role in user.Roles)
-            {
-                ci.AddClaim(new Claim(ClaimTypes.Role, role));
-            }
 
             return ci;
         }

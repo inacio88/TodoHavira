@@ -68,6 +68,7 @@ namespace Todo.Api.Common.Api
         public static void AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddTransient<ITarefaHandler, TarefaHandler>();
+            builder.Services.AddTransient<IUsuarioHandler, UsuarioHandler>();
             //builder.Services.AddTransient<ITokenService, TokenService>();
         }
     }
