@@ -59,7 +59,7 @@ namespace Todo.Api.Handlers
             }
             catch
             {
-                return new Response<UserAuthenticated?>(null,  500, "Não foi possível verificar email cadastrado");
+                return new Response<UserAuthenticated?>(null, 500, "Não foi possível verificar email cadastrado");
             }
             #endregion
 
@@ -76,6 +76,51 @@ namespace Todo.Api.Handlers
             var token = TokenService.Generate(user);
             var userAuthenticated = new UserAuthenticated(user.Id, user.Name, user.Email, token);
             return new Response<UserAuthenticated?>(userAuthenticated, 200, "Usuario criado com sucesso!");
+        }
+
+        public async Task<Response<UserAuthenticated?>> Logar(LogarUsuarioRequest request, CancellationToken cancellationToken)
+        {
+
+            #region 2 - obter usuáiro no banco
+            User? user;
+            try
+            {
+                user = await GetUserByEmailAsync(request.Email, cancellationToken);
+                if (user is null)
+                    return new Response<UserAuthenticated?>(null, 400, "Conta não encontrada");
+
+            }
+            catch (Exception e)
+            {
+                return new Response<UserAuthenticated?>(null, 500, "Não foi possível vericar conta");
+            }
+            #endregion
+
+            #region 3 - Validar senha
+            try
+            {
+                if (!user.Password.Challenge(request.Password))
+                    return new Response<UserAuthenticated?>(null, 400, "credenciais erradas");
+
+            }
+            catch
+            {
+                return new Response<UserAuthenticated?>(null, 500, "Não foi possível vericar conta");
+            }
+            #endregion
+
+            #region  4 - retornar os dados
+            try
+            {
+                var token = TokenService.Generate(user);
+                var userAuthenticated = new UserAuthenticated(user.Id, user.Name, user.Email, token);
+                return new Response<UserAuthenticated?>(userAuthenticated, 200, "Usuario LOGADO com sucesso!");
+            }
+            catch
+            {
+                return new Response<UserAuthenticated?>(null, 500, "Não foi possível vericar conta");
+            }
+            #endregion
         }
     }
 }

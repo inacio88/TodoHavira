@@ -4,21 +4,20 @@ using Todo.Core.Entities;
 using Todo.Core.Handlers;
 using Todo.Core.Requests;
 using Todo.Core.Responses;
-
 namespace Todo.Api.Endpoints.User
 {
-    public class CriarUsuarioEndpoint : IEndpoint
+    public class LogarUsuarioEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
-            => app.MapPost("/", HandleAsync)
-                    .WithName("Usuario: criar")
-                    .WithSummary("criar Usuario")
-                    .WithDescription("aqui cria um usuário")
-                    .WithOrder(1)
-                    .Produces<Response<UserAuthenticated?>>()
-                    ;
+        => app.MapPost("/login", HandleAsync)
+                .WithName("Usuario: logar")
+                .WithSummary("logar Usuario")
+                .WithDescription("logar usuário")
+                .WithOrder(2)
+                .Produces<Response<UserAuthenticated?>>()
+                ;
 
-        private static async Task<IResult> HandleAsync(IUsuarioHandler handler, CriarUsuarioRequest request)
+        private static async Task<IResult> HandleAsync(IUsuarioHandler handler, LogarUsuarioRequest request)
         {
             var validationContext = new ValidationContext(request);
             var validationResults = new List<ValidationResult>();
@@ -27,10 +26,10 @@ namespace Todo.Api.Endpoints.User
                 return Results.BadRequest(validationResults);
 
 
-            var result = await handler.CriarAsync(request, new CancellationToken());
+            var result = await handler.Logar(request, new CancellationToken());
 
             if (result.IsSuccess)
-                return TypedResults.Created($"/{result.Data?.Id}", result);
+                return TypedResults.Ok(result);
 
             return Results.BadRequest();
         }

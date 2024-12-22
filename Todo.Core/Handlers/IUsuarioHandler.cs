@@ -12,5 +12,6 @@ namespace Todo.Core.Handlers
         public Task SaveAsync(User user, CancellationToken cancellationToken);
         public Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
         public Task<Response<UserAuthenticated?>> CriarAsync(CriarUsuarioRequest request, CancellationToken cancellationToken);
+        public Task<Response<UserAuthenticated?>> Logar(LogarUsuarioRequest request, CancellationToken cancellationToken);
     }
 }

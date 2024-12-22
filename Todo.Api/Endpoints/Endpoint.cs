@@ -33,6 +33,7 @@ namespace Todo.Api.Endpoints
             endpoints.MapGroup("v1/usuarios")
                 .WithTags("usuarios")
                 .MapEndpoint<CriarUsuarioEndpoint>()
+                .MapEndpoint<LogarUsuarioEndpoint>()
                 ;
         }
 
