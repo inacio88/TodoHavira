@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Todo.Api.Data;
 using Todo.Api.Handlers;
 using Todo.Api.Services;
+using Todo.Core;
 using Todo.Core.Handlers;
 using Todo.Core.Services;
 
@@ -20,7 +21,7 @@ namespace Todo.Api.Common.Api
             ConfigurationApi.JwtPrivateKey = builder.Configuration.GetSection("Secrets").GetValue<string>("JwtPrivateKey")
                                             ?? throw new Exception("JwtPrivateKey não encontrada");
 
-            ConfigurationApi.PasswordSaltKey = builder.Configuration.GetSection("Secrets").GetValue<string>("PasswordSaltKey")
+            Configuration.PasswordSaltKey = builder.Configuration.GetSection("Secrets").GetValue<string>("PasswordSaltKey")
                                             ?? throw new Exception("PasswordSaltKey não encontrada");
 
         }
