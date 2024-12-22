@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // });
 builder.AddConfiguration();
 builder.AddDataContexts();
+builder.AddJwtAuthentication();
 builder.AddDocumentation();
 builder.AddServices();
 var app = builder.Build();
@@ -25,6 +26,8 @@ var app = builder.Build();
 // }
 app.ConfigureDevEnviroment();
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapEndpoints();
 
 app.Run();

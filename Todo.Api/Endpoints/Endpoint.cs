@@ -1,4 +1,5 @@
 using Todo.Api.Common;
+using Todo.Api.Endpoints.User;
 
 namespace Todo.Api.Endpoints
 {
@@ -13,6 +14,12 @@ namespace Todo.Api.Endpoints
                 .WithTags("Health check")
                 .MapGet("/", () => new { message = "OK" });
 
+            endpoints.MapGroup("/")
+                .WithTags("Health check")
+                .MapGet("/conferir", () => new { message = "OK conferir" })
+                .RequireAuthorization()
+                ;
+
 
             endpoints.MapGroup("v1/tarefas")
                 .WithTags("tarefas")
@@ -21,6 +28,11 @@ namespace Todo.Api.Endpoints
                 .MapEndpoint<ObterPorIdEndpoint>()
                 .MapEndpoint<ObterTodasTarefasEndpoint>()
                 .MapEndpoint<DeletarTarefaEndpoint>()
+                ;
+
+            endpoints.MapGroup("v1/usuarios")
+                .WithTags("usuarios")
+                .MapEndpoint<CriarUsuarioEndpoint>()
                 ;
         }
 
