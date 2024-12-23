@@ -7,7 +7,7 @@ namespace Todo.Core.Models
         public string Descricao { get; set; } = string.Empty;
         public DateTime DataCriacao { get; set;}
         public DateTime? DataConclusao { get; set; }
-        public int IdUsuario { get; set; }
+        public Guid IdUsuario { get; set; }
 
     }
 }

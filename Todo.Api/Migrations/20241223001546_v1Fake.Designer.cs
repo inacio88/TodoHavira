@@ -12,8 +12,8 @@ using Todo.Api.Data;
 namespace Todo.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241222222543_v2 user")]
-    partial class v2user
+    [Migration("20241223001546_v1Fake")]
+    partial class v1Fake
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,8 +44,8 @@ namespace Todo.Api.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("NVARCHAR");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdUsuario")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Titulo")
                         .IsRequired()

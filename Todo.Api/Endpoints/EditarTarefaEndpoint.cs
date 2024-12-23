@@ -23,14 +23,14 @@ namespace Todo.Api.Endpoints
             var validationContext = new ValidationContext(request);
             var validationResults = new List<ValidationResult>();
             var  isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
-            
+            var tempGuid = new Guid();
             if(!isValid)
                 return Results.BadRequest(validationResults);
             
             if (id != request.Id)
                 return Results.BadRequest("Id inválido");
 
-            request.IdUsuario = 1;
+            request.IdUsuario = tempGuid;
             var result = await handler.EditarAsync(request);
             
             if (result.IsSuccess)

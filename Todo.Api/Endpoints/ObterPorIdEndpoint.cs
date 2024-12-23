@@ -18,8 +18,9 @@ namespace Todo.Api.Endpoints
 
         private static async Task<IResult> HandleAsync(ITarefaHandler handler, int id)
         {
+            var tempGuid = new Guid();
             
-            var request = new ObterPorIdTarefaRequest {Id = id, IdUsuario = 1};
+            var request = new ObterPorIdTarefaRequest {Id = id, IdUsuario = tempGuid};
             var result = await handler.ObterPorIdAsync(request);
 
             if (result.IsSuccess)

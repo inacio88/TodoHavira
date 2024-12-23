@@ -18,7 +18,9 @@ namespace Todo.Api.Endpoints
 
         private static async Task<IResult> HandleAsync( ITarefaHandler handler, long id)
         {
-            var request = new DeletarTarefaRequest {Id = id, IdUsuario = 1};
+            var tempGuid = new Guid();
+            
+            var request = new DeletarTarefaRequest {Id = id, IdUsuario = tempGuid};
             var result = await handler.DeletarAsync(request);
 
             if (result.IsSuccess)

@@ -26,7 +26,7 @@ namespace Todo.Api.Endpoints
             if(!isValid)
                 return Results.BadRequest(validationResults);
 
-            request.IdUsuario = 1;
+            //request.IdUsuario = 1;
             var result = await handler.CriarAsync(request);
             
             if (result.IsSuccess)

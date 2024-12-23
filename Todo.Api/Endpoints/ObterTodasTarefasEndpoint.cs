@@ -20,8 +20,8 @@ namespace Todo.Api.Endpoints
 
         private static async Task<IResult> HandleAsync(ITarefaHandler handler, [FromQuery] int pageNumber = Configuration.DefaultPageNumber, [FromQuery] int pageSize = Configuration.DefaultPageSize)
         {
-            
-            var request = new ObterTodasTarefasRequest {IdUsuario = 1, PageNumber = pageNumber, PageSize = pageSize};
+            var tempGuid = new Guid();
+            var request = new ObterTodasTarefasRequest {IdUsuario = tempGuid, PageNumber = pageNumber, PageSize = pageSize};
 
             var result = await handler.ObterTodasAsync(request);
 

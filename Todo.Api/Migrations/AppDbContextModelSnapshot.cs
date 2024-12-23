@@ -41,8 +41,8 @@ namespace Todo.Api.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("NVARCHAR");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdUsuario")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
