@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Api.Common;
 using Todo.Core;
@@ -18,10 +19,10 @@ namespace Todo.Api.Endpoints
                     .Produces<PagedResponse<List<Tarefa>?>>()
                     ;
 
-        private static async Task<IResult> HandleAsync(ITarefaHandler handler, [FromQuery] int pageNumber = Configuration.DefaultPageNumber, [FromQuery] int pageSize = Configuration.DefaultPageSize)
+        private static async Task<IResult> HandleAsync(ITarefaHandler handler, ClaimsPrincipal user, [FromQuery] int pageNumber = Configuration.DefaultPageNumber, [FromQuery] int pageSize = Configuration.DefaultPageSize)
         {
-            
-            var request = new ObterTodasTarefasRequest {IdUsuario = 1, PageNumber = pageNumber, PageSize = pageSize};
+            var userGuid = user.Id();
+            var request = new ObterTodasTarefasRequest {IdUsuario = userGuid, PageNumber = pageNumber, PageSize = pageSize};
 
             var result = await handler.ObterTodasAsync(request);
 

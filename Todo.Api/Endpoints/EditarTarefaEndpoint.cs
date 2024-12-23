@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Todo.Api.Common;
 using Todo.Core.Handlers;
 using Todo.Core.Models;
@@ -18,19 +19,18 @@ namespace Todo.Api.Endpoints
                     .Produces<Response<Tarefa?>>()
                     ;
 
-        private static async Task<IResult> HandleAsync(ITarefaHandler handler, EditarTarefaRequest request, int id)
+        private static async Task<IResult> HandleAsync(ITarefaHandler handler, ClaimsPrincipal user, EditarTarefaRequest request, int id)
         {
             var validationContext = new ValidationContext(request);
             var validationResults = new List<ValidationResult>();
             var  isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
-            
             if(!isValid)
                 return Results.BadRequest(validationResults);
             
             if (id != request.Id)
                 return Results.BadRequest("Id inválido");
 
-            request.IdUsuario = 1;
+            request.IdUsuario = user.Id();
             var result = await handler.EditarAsync(request);
             
             if (result.IsSuccess)
