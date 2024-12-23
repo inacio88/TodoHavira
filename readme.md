@@ -3,6 +3,7 @@
 - endpoint http://localhost:5214/v1/usuarios
 - Método: Post
 - No body é obrigatório os seguinta campos:
+Request
 ~~~json
 {
   "email": "string",
@@ -10,13 +11,38 @@
   "name": "string"
 }
 ~~~
+Response
+~~~json
+{
+  "data": {
+    "token": "string",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "name": "string",
+    "email": "string"
+  },
+  "message": "string"
+}
+~~~
  na criação já retorno o token, mas também pode ser o ulizado o endpoint de login para obter o token
 - enpoint: http://localhost:5214/v1/usuarios/login
 - Método: Post
+Request
 ~~~json
 {
   "email": "inacio@mail.com",
   "password": "1234567890"
+}
+~~~
+Response
+~~~json
+{
+  "data": {
+    "token": "string",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "name": "string",
+    "email": "string"
+  },
+  "message": "string"
 }
 ~~~
 - Com o token já é possível fazer as operações da api de tarefas
