@@ -3,6 +3,7 @@ using Todo.Api.Common;
 using Todo.Core.Handlers;
 using Todo.Core.Requests;
 using Todo.Core.Responses;
+using System.Security.Claims;
 namespace Todo.Api.Endpoints
 {
     public class DeletarTarefaEndpoint : IEndpoint
@@ -16,11 +17,11 @@ namespace Todo.Api.Endpoints
                 .Produces<Response<Tarefa?>>()
                 ;
 
-        private static async Task<IResult> HandleAsync( ITarefaHandler handler, long id)
+        private static async Task<IResult> HandleAsync( ITarefaHandler handler, ClaimsPrincipal user, long id)
         {
-            var tempGuid = new Guid();
+            var userGuid = user.Id();
             
-            var request = new DeletarTarefaRequest {Id = id, IdUsuario = tempGuid};
+            var request = new DeletarTarefaRequest {Id = id, IdUsuario = userGuid};
             var result = await handler.DeletarAsync(request);
 
             if (result.IsSuccess)

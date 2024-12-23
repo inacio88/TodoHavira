@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Todo.Api.Common;
 using Todo.Core.Handlers;
 using Todo.Core.Models;
@@ -16,11 +17,11 @@ namespace Todo.Api.Endpoints
                     .Produces<Response<Tarefa?>>()
                     ;
 
-        private static async Task<IResult> HandleAsync(ITarefaHandler handler, int id)
+        private static async Task<IResult> HandleAsync(ITarefaHandler handler, ClaimsPrincipal user, int id)
         {
-            var tempGuid = new Guid();
+            var userGuid = user.Id();
             
-            var request = new ObterPorIdTarefaRequest {Id = id, IdUsuario = tempGuid};
+            var request = new ObterPorIdTarefaRequest {Id = id, IdUsuario = userGuid};
             var result = await handler.ObterPorIdAsync(request);
 
             if (result.IsSuccess)

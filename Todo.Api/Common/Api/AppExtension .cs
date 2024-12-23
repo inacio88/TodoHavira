@@ -6,7 +6,7 @@ namespace Todo.Api.Common.Api
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-            app.MapSwagger();
+            app.MapSwagger().RequireAuthorization();;
         }
     }
 }
